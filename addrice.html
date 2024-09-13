@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Rice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 15%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Rice</h1>
+    <button onclick="window.location.href='rice.html'">Back to Rice Page</button>
+    
+    <form id="addRiceForm">
+        <label for="brand">Rice Brand:</label>
+        <input type="text" id="brand" required>
+
+        <label for="cost">Cost (per kg):</label>
+        <input type="number" id="cost" step="0.01" required>
+
+        <label for="package">Package Size (kg):</label>
+        <select id="package" required>
+            <option value="5kg">5kg</option>
+            <option value="10kg">10kg</option>
+            <option value="25kg">25kg</option>
+            <option value="50kg">50kg</option>
+        </select>
+
+        <label for="stock">Stock (kg):</label>
+        <input type="number" id="stock" required>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" value="" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('addRiceForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            console.log('Form submission intercepted.');
+
+            // Get input values
+            const brand = document.getElementById('brand').value;
+            const cost = document.getElementById('cost').value;
+            const packageSize = document.getElementById('package').value;
+            const stock = document.getElementById('stock').value;
+            const date = document.getElementById('date').value;
+
+            console.log('Brand:', brand);
+            console.log('Cost:', cost);
+            console.log('Package Size:', packageSize);
+            console.log('Stock:', stock);
+            console.log('Date:', date);
+
+            // Validate form data
+            if (!brand || !cost || !packageSize || !stock || !date) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            // Retrieve existing rice data from localStorage or initialize an empty array
+            let riceData = localStorage.getItem('riceData');
+            console.log('Stored riceData:', riceData);
+
+            try {
+                riceData = riceData ? JSON.parse(riceData) : [];
+                if (!Array.isArray(riceData)) {
+                    console.warn('riceData is not an array, reinitializing.');
+                    riceData = [];
+                }
+            } catch (e) {
+                console.error('Error parsing riceData:', e);
+                riceData = [];
+            }
+
+            // Ensure riceData is an array
+            if (!Array.isArray(riceData)) {
+                console.error('riceData is not an array.');
+                riceData = [];
+            }
+
+            // Add the new rice data to the array
+            riceData.push({
+                brand: brand,
+                cost: parseFloat(cost),
+                package: packageSize,
+                stock: parseInt(stock),
+                date: date // Add date to the data
+            });
+
+            console.log('Updated Rice Data:', riceData);
+
+            // Save updated rice data back to localStorage
+            localStorage.setItem('riceData', JSON.stringify(riceData));
+
+            // Show confirmation message
+            alert('Rice data submitted successfully!');
+
+            // After successful submission, redirect to rice.html
+            window.location.href = 'rice.html';
+        });
+
+        // Set the default date to today
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>

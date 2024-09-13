@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>View Users</h1>
+    <button onclick="window.location.href='main.html'">Back to Main Page</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Amount Given</th>
+                <th>Total Amount</th>
+                <th>Amount Still Needed</th>
+                <th>Payment Method</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+            <!-- User data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        function loadUserData() {
+            const users = JSON.parse(localStorage.getItem('userData')) || [];
+            const tableBody = document.getElementById('userTableBody');
+            tableBody.innerHTML = '';
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${user.date}</td>
+                    <td>${user.name}</td>
+                    <td>${user.amountGiven}</td>
+                    <td>${user.totalAmount}</td>
+                    <td>${user.amountStillNeeded}</td>
+                    <td>${user.paymentMethod}</td>
+                    <td><button onclick="updateUser('${user.name}')">Update</button></td>
+                    <td><button onclick="deleteUser('${user.name}')">Delete</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function updateUser(name) {
+            const users = JSON.parse(localStorage.getItem('userData')) || [];
+            const user = users.find(user => user.name === name);
+            if (user) {
+                // Pass user data to the 'add_user.html' page
+                const queryString = new URLSearchParams(user).toString();
+                window.location.href = `add_user.html?${queryString}`;
+            }
+        }
+
+        function deleteUser(name) {
+            let users = JSON.parse(localStorage.getItem('userData')) || [];
+            users = users.filter(user => user.name !== name);
+            localStorage.setItem('userData', JSON.stringify(users));
+            loadUserData(); // Refresh the user list
+        }
+
+        // Load user data when the page loads
+        window.onload = loadUserData;
+    </script>
+</body>
+</html>

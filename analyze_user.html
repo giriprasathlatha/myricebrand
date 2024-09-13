@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analyze User</h1>
+    <button onclick="window.location.href='main.html'">Back to Main Page</button>
+    
+    <form id="analyzeForm">
+        <label for="userName">Enter Customer Name:</label>
+        <input type="text" id="userName" required>
+        <button type="button" onclick="analyzeUser()">Analyze</button>
+    </form>
+
+    <div id="userDetails"></div>
+
+    <script>
+        function analyzeUser() {
+            const name = document.getElementById('userName').value;
+            const users = JSON.parse(localStorage.getItem('userData')) || [];
+            const user = users.find(user => user.name === name);
+            const userDetailsDiv = document.getElementById('userDetails');
+
+            if (user) {
+                const amountStillNeeded = user.totalAmount - user.amountGiven;
+                const currentDate = new Date();
+                const userDate = new Date(user.date);
+                const daysSinceGiven = Math.floor((currentDate - userDate) / (1000 * 60 * 60 * 24));
+
+                userDetailsDiv.innerHTML = `
+                    <p>Name: ${user.name}</p>
+                    <p>Amount Given: ${user.amountGiven}</p>
+                    <p>Total Amount: ${user.totalAmount}</p>
+                    <p>Amount Still Needed: ${amountStillNeeded}</p>
+                    <p>Date: ${user.date}</p>
+                    <p>Days Since Given: ${daysSinceGiven}</p>
+                    <p>Payment Method: ${user.paymentMethod}</p>
+                `;
+            } else {
+                userDetailsDiv.innerHTML = '<p>User not found.</p>';
+            }
+        }
+    </script>
+</body>
+</html>

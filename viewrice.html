@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Rice Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rice Data</h1>
+    <button onclick="window.location.href='rice.html'">Back to Rice Page</button>
+    <table id="riceTable">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Cost (per kg)</th>
+                <th>Package Size</th>
+                <th>Stock (kg)</th>
+                <th>Date</th> <!-- Added Date Column -->
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        function loadRiceData() {
+            const riceData = JSON.parse(localStorage.getItem('riceData')) || [];
+            const tableBody = document.querySelector('#riceTable tbody');
+            tableBody.innerHTML = '';
+
+            riceData.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.brand}</td>
+                    <td>${data.cost.toFixed(2)}</td>
+                    <td>${data.package}</td>
+                    <td>${data.stock}</td>
+                    <td>${data.date}</td> <!-- Display Date -->
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Load rice data when the page loads
+        document.addEventListener('DOMContentLoaded', loadRiceData);
+    </script>
+</body>
+</html>

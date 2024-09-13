@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Payment Options</h1>
+    <button onclick="window.location.href='dashboard.html'">Back to Dashboard Page</button>
+    <button onclick="window.location.href='gpay.html'">GPay</button>
+    <button onclick="window.location.href='readycash.html'">Ready Cash</button>
+    <button onclick="window.location.href='totalamount.html'">Total Amount</button>
+    
+    <script>
+        function handleReadyCash() {
+            // Logic or redirection for Ready Cash
+            alert("Ready Cash clicked");
+            // window.location.href = 'ready_cash.html'; // Uncomment this to redirect to a Ready Cash specific page
+        }
+
+        function handleTotalAmount() {
+            // Logic or redirection for Total Amount
+            alert("Total Amount clicked");
+            // window.location.href = 'total_amount.html'; // Uncomment this to redirect to a Total Amount specific page
+        }
+    </script>
+</body>
+</html>

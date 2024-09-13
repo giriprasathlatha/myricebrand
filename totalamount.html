@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Amount</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Total Purchase Details</h1>
+    <button onclick="window.location.href='payment.html'">Back to Payment Page</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Amount Purchased</th>
+                <th>Payment Method</th>
+                <th>Date of Purchase</th>
+            </tr>
+        </thead>
+        <tbody id="totalAmountTableBody">
+            <!-- User data will be inserted here -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" id="totalAmountFooter">Total Amount: 0</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        function loadTotalAmountUsers() {
+            const users = JSON.parse(localStorage.getItem('userData')) || [];
+            const tableBody = document.getElementById('totalAmountTableBody');
+            const totalAmountFooter = document.getElementById('totalAmountFooter');
+            tableBody.innerHTML = '';
+
+            // Sort users by date in descending order
+            users.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            let totalAmount = 0;
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.amountGiven}</td>
+                    <td>${user.paymentMethod}</td>
+                    <td>${user.date}</td>
+                `;
+                tableBody.appendChild(row);
+                totalAmount += parseFloat(user.amountGiven);
+            });
+
+            totalAmountFooter.textContent = `Total Amount: ${totalAmount}`;
+        }
+
+        // Load user data and calculate total amount when the page loads
+        window.onload = loadTotalAmountUsers;
+    </script>
+</body>
+</html>

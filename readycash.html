@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ready Cash Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Users Who Purchased via Ready Cash</h1>
+    <button onclick="window.location.href='payment.html'">Back to Payment Page</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Amount Purchased</th>
+                <th>Date of Purchase</th>
+            </tr>
+        </thead>
+        <tbody id="readyCashTableBody">
+            <!-- Ready Cash user data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        function loadReadyCashUsers() {
+            const users = JSON.parse(localStorage.getItem('userData')) || [];
+            const readyCashUsers = users.filter(user => user.paymentMethod === 'Ready Cash');
+            const tableBody = document.getElementById('readyCashTableBody');
+            tableBody.innerHTML = '';
+
+            readyCashUsers.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.amountGiven}</td>
+                    <td>${user.date}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Load Ready Cash user data when the page loads
+        window.onload = loadReadyCashUsers;
+    </script>
+</body>
+</html>
